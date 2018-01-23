@@ -17,8 +17,8 @@ Class=LaTeXView
 Document=AlgorithmsHW1.tex
 
 [Frame0_View0,0]
-TopLine=198
-Cursor=6106
+TopLine=493
+Cursor=19183
 
 [SessionInfo]
 FrameCount=1

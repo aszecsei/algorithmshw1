@@ -344,7 +344,7 @@ These 3 newly-created missing pieces can then be tiled trivially by a single L-s
 \textbf{Runtime}
 \\
 
-Each call to \alg{TileChessboard} with $n>1$ creates 4 recursive calls. We recurse to a depth of $log_2 2^{n-1}=n-1$, which creates a total of $4^{n-1}$ recursions, which is $O(4^n)$. 
+Each call to \alg{TileChessboard} with $n>1$ creates 4 recursive calls and some number, $\delta$, of constant calls. Therefore, $T(n)=4T(n-1)+\delta$. The annihilator for this is $(\textbf{E}-4)(\textbf{E}-1)$, so our closed-form solution is $T(n)=\alpha 4^n + \beta$, which is $O(4^n)$.
 
 \end{homeworkProblem}
 
@@ -486,6 +486,14 @@ Notice that the comparisons performed by the algorithm do not depend at all on t
 	\item What is the running time of \alg{Unusual}? Justify your answer.
 	\item What is the running time of \alg{Cruel}? Justify your answer.
 \end{enumerate}
+
+\textbf{Solution}
+\\
+
+\textbf{Part 1}
+\\
+
+
 
 \end{homeworkProblem}
 
