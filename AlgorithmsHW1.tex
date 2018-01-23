@@ -1,0 +1,492 @@
+\documentclass{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{libertine}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass: \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Homework\ \#1}
+\newcommand{\hmwkDueDate}{January 30, 2017}
+\newcommand{\hmwkClass}{Design and Analysis of Algorithms}
+\newcommand{\hmwkClassInstructor}{Professor Kasturi Varadarajan}
+\newcommand{\hmwkAuthorName}{\textbf{Alic Szecsei}}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ in\ class\ on\ \hmwkDueDate}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor}}
+    \vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+\begin{homeworkProblem}
+Prove that it is possible for the Boston Pool algorithm to execute \(\Omega(n^2)\) rounds. (You need to describe both a suitable input and a sequence of \(\Omega(n^2)\) valid proposals.)
+\\
+
+\textbf{Solution}
+\\
+
+Suppose we have four doctors, \(\alpha\) through \(\delta\), and four hospitals, \(A\)-\(D\), with their respective preferences given below.
+\\
+
+\begin{tabular}{ l | l | l | l | l }
+	\hline
+  \textbf{Hospital} & \textbf{Pref 1} & \textbf{Pref 2} & \textbf{Pref 3} & \textbf{Pref 4} \\
+	\hline
+  \(A\)        & \(\alpha\) & \(\beta\)  & \(\gamma\) & \(\delta\) \\
+	\(B\)        & \(\alpha\) & \(\beta\)  & \(\gamma\) & \(\delta\) \\
+	\(C\)        & \(\alpha\) & \(\beta\)  & \(\gamma\) & \(\delta\) \\
+	\(D\)        & \(\alpha\) & \(\beta\)  & \(\gamma\) & \(\delta\) \\
+	\hline
+  \textbf{Doctor} & \textbf{Pref 1} & \textbf{Pref 2} & \textbf{Pref 3} & \textbf{Pref 4} \\
+	\hline
+  \(\alpha\)        & \(D\) & \(C\) & \(B\) & \(A\) \\
+	\(\beta\)         & \(C\) & \(B\) & \(A\) & \(D\) \\
+	\(\gamma\)        & \(B\) & \(A\) & \(D\) & \(C\) \\
+	\(\delta\)        & \(A\) & \(D\) & \(C\) & \(B\) \\
+	\hline
+\end{tabular}
+\\
+
+Specifically, note that all hospitals have the same preferences for doctors, and each doctor's preferences are shifted over by one.
+\\
+
+We allow hospitals to propose to doctors, and thus use the following proposals, starting with Hospital $A$:
+
+\begin{enumerate}
+	\item \(A \gets \alpha\).
+	\item \(B \gets \alpha\), since \(\alpha\) prefers \(B\) to \(A\).
+	\item \(A \gets \beta\).
+	\item \(C \gets \alpha\), since \(\alpha\) prefers \(C\) to \(B\).
+	\item \(B \gets \beta\), since \(\beta\) prefers \(B\) to \(A\).
+	\item \(A \gets \gamma\).
+	\item \(D \gets \alpha\), since \(\alpha\) prefers \(D\) to \(C\).
+	\item \(C \gets \beta\), since \(\beta\) prefers \(C\) to \(B\).
+	\item \(B \gets \gamma\), since \(\gamma\) prefers \(B\) to \(A\).
+	\item \(A \gets \delta\).
+\end{enumerate}
+
+There are \(4\) \emph{initial} proposals to doctors, and \(1+2+3\) \emph{subsequent} proposals, in which doctors received a better proposal and swapped hospitals. Were another hospital and doctor to be added, following the same pattern, there would be \(5\) initial proposals and \(1+2+3+4\) subsequent proposals, and so on. In general, if there are \(n\) initial proposals, then there will be \(\sum_{i=1}^{n-1} i\) subsequent proposals. This summation has a closed form of \(n(n-1)/2\) subsequent proposals.
+\\
+
+Since $n(n-1)/2 + n$ is $\Theta(n^2)$, it's also $\Omega(n^2)$.
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+Consider a generalization of the stable matching problem, where some doctors do not rank all hospitals and some hospitals do not rank all doctors, and a doctor can be assigned to a hospital only if each appears in the other's preference list. In this case, there are three
+additional unstable situations:
+
+\begin{itemize}
+	\item A hospital prefers an unmatched doctor to its assigned match.
+	\item A doctor prefers an unmatched hospital to her assigned match.
+	\item An unmatched doctor and an unmatched hospital appear in each other's preference lists.
+\end{itemize}
+
+Describe and analyze an efficient algorithm that computes a stable matching in this setting.
+\\
+
+Note that a stable matching may leave some doctors and hospitals unmatched, even though their preference lists are non-empty. For example, if every doctor lists Harvard as their only acceptable hospital, and every hospital lists Dr. House as their only acceptable intern, then only House and Harvard will be matched.
+\\
+
+\textbf{Solution}
+\\
+
+\begin{algorithm}
+	\caption{General stable matching algorithm}\label{algo:generalstablematching}
+	\begin{algorithmic}[1]
+		\Function{GeneralStableMatching}{$H[1..m], D[1..n]$}
+			\State{$U \gets$ a list of all hospitals}
+			\While{$\exists$ a hospital in $U$}
+				\State{pick a hospital $H$ in $U$}
+				\If{$H$ has proposed to all doctors on its preference list}
+					\State{remove $H$ from $U$}
+					\State{\textbf{continue}}
+				\EndIf{}
+				\State{$H$ proposes to the ``next'' doctor on its list (in order of preference), $\delta$}
+				\If{$\delta$ is not matched}
+					\State{$\delta$ is matched with $H$}
+					\State{remove $H$ from $U$}
+				\Else{}
+					\If{$\delta$ prefers its current match}
+						\State{$\delta$ rejects $H$ and remains matched with its current match}
+					\Else{}
+						\State{$\delta$ abandons its current match and matches with $H$}
+						\State{add $\delta$'s abandoned match to $U$}
+					\EndIf{}
+				\EndIf{}
+			\EndWhile
+		\EndFunction{}
+	\end{algorithmic}
+\end{algorithm}
+
+\textbf{Correctness}
+\\
+
+Let us assume that \alg{GeneralStableMatching} runs on a set of doctors and hospitals. For each unstable situation, we can show that it cannot be a result of our algorithm.
+\\
+
+\textbf{A hospital prefers an unmatched doctor to its assigned match.}
+\\
+
+If the algorithm concludes, all hospitals have been removed from the set of unmatched hospitals $U$. In order to remove a hospital from $U$, it must have proposed to, and been rejected by, all doctors; or, it must be matched to a doctor. Since hospitals choose doctors in descending order of preference, any doctor that $H$ prefers to its current match must have rejected it in favor of another hospital; thus, no hospital can prefer an unmatched doctor to its assigned match.
+\\
+
+\textbf{A doctor prefers an unmatched hospital to her assigned match.}
+\\
+
+When the algorithm concludes, all hospitals are matched \emph{unless} they have been rejected by all doctors on their list of preferences. Thus, if a hospital is unmatched, all its doctors have rejected it for another hospital; therefore no doctor can prefer an unmatched hospital to her assigned match.
+\\
+
+\textbf{An unmatched doctor and an unmatched hospital appear in each other's preference lists.}
+\\
+
+Similar to the previous situation, all hospitals are matched \emph{unless} they have been rejected by all doctors on their list of preferences. If a doctor is unmatched, then she has not been proposed to by a hospital, thus cannot be on a hospital's preference list. Therefore, no combination of unmatched hospital and doctor can appear in each other's preference lists.
+\\
+
+\textbf{Runtime}
+\\
+
+As a worst case, we can assume that each hospital is iterated over and must propose to each doctor on its list of preferences. Thus, the worst-case runtime for this algorithm is $O(m \times n)$, where $m$ is the number of hospitals and $n$ is the number of doctors.
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+Consider a \(2^n \times 2^n\) chessboard with one (arbitrarily chosen) square removed.
+
+\begin{enumerate}
+	\item Prove that any such chessboard can be tiled without gaps or overlaps by L-shaped pieces, each composed of 3 squares.
+	\item Describe and analyze an algorithm to compute such a tiling, given the integer \(n\) and two \(n\)-bit integers representing the row and column of the missing square. The output is a list of the positions and orientations of \((4^n-1)/3\) tiles. Your algorithm should run in \(O(4^n)\) time.
+\end{enumerate}
+
+\textbf{Solution}
+\\
+\textbf{Part 1}
+\\
+
+Base case $n=1$: If $n=1$ there is a single ``hole'' and an L-shaped piece can be trivially rotated around the hole.
+\\
+So, the theorem holds when $n=1$.
+\\
+Inductive hypothesis: Suppose the theorem holds for all values of $n$ up to some $k$, $k \geq 1$.
+\\
+Inductive step: Let $n=k+1$.
+\\
+Then we can split our $2^n \times 2^n$ chessboard into 4 quadrants. Our missing piece must be in one of these 4 quadrants. By the inductive hypothesis, this quadrant can be filled, since it is a $2^{n-1} \times 2^{n-1}$ chessboard with a missing piece.
+\\
+We can then place missing pieces for the other three quadrants such that the missing piece is one of the central 4 squares. By the inductive hypothesis, these quadrants can be filled, since they are $2^{n-1} \times 2^{n-1}$ chessboard with one missing piece each.
+\\
+These 3 newly-created missing pieces can then be tiled trivially by a single L-shaped piece.
+\\
+
+\textbf{Part 2}
+\\
+\begin{algorithm}
+	\caption{Missing-Square Chessboard Tiling}\label{algo:missingsquare}
+	\begin{algorithmic}[1]
+		\Function{TileChessboard}{$n, row, column$}
+			\State{$l \gets$ new $List$}
+			\If{$n=1$}\Comment{base case}
+				\State{create new shape $s$}
+				\State{append $s$ to $l$}
+				\State{\Return{$l$}}
+			\Else{}\Comment{recursion}
+				\If{missing piece is in top-left quadrant}
+					\State{$tl \gets$ \Call{TileChessboard}{$n/2, row, column$}}
+					\State{$tr \gets$ \Call{TileChessboard}{$n/2, n/2-1, n/2$}}
+					\State{$bl \gets$ \Call{TileChessboard}{$n/2, n/2, n/2-1$}}
+					\State{$br \gets$ \Call{TileChessboard}{$n/2, n/2, n/2$}}
+				\ElsIf{missing piece is in top-right quadrant}
+					\State{...}
+				\ElsIf{missing piece is in bottom-left quadrant}
+					\State{...}
+				\ElsIf{missing piece is in bottom-right quadrant}
+					\State{$tl \gets$ \Call{TileChessboard}{$n/2, n/2-1, n/2-1$}}
+					\State{$tr \gets$ \Call{TileChessboard}{$n/2, n/2-1, n/2$}}
+					\State{$bl \gets$ \Call{TileChessboard}{$n/2, n/2, n/2-1$}}
+					\State{$br \gets$ \Call{TileChessboard}{$n/2, row-n/2, column-n/2$}}
+				\EndIf{}
+				\State{append $tl, tr, bl, br$ to $l$}
+				\State{create new shape $s$ in center, so missing piece is in the same quadrant as $row, column$}
+				\State{append $s$ to $l$}
+				\State{\Return{$l$}}
+			\EndIf{}
+		\EndFunction{}
+	\end{algorithmic}
+\end{algorithm}
+
+\textbf{Runtime}
+\\
+
+Each call to \alg{TileChessboard} with $n>1$ creates 4 recursive calls. We recurse to a depth of $log_2 2^{n-1}=n-1$, which creates a total of $4^{n-1}$ recursions, which is $O(4^n)$. 
+
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+Consider the following restricted variants of the Tower of Hanoi puzzle. In each problem, the pegs are numbered 0, 1, and 2, as in problem ??, and your task is to move a stack of n disks from peg 1 to peg 2.
+
+\begin{enumerate}
+	\item Suppose you are forbidden to move any disk directly between peg 1 and peg 2; \textit{every} move must involve peg 0. Describe an algorithm to solve this version of the puzzle in as few moves as possible. \textit{Exactly} how many moves does your algorithm make?
+	\item Suppose you are only allowed to move disks from peg 0 to peg 2, from peg 2 to peg 1, or from peg 1 to peg 0. Equivalently, suppose the pegs are arranged in a circle and numbered in clockwise order, and you are only allowed to move disks counterclockwise. Describe an algorithm to solve this version of the puzzle in as few moves as possible. How many moves does your algorithm make?
+\end{enumerate}
+
+\textbf{Solution}
+\\
+\textbf{Part 1}
+\\
+
+\begin{algorithm}
+	\caption{Tower of Hanoi, Variant 1}\label{algo:hanoivar1}
+	\begin{algorithmic}[1]
+		\Function{HanoiVariant1}{$n, src, dst, tmp$}
+			\If{$n>0$}
+				\State{\Call{HanoiVariant1}{$n-1, src, dst, tmp$}}
+				\State{move disk $n$ from $src$ to $tmp$}
+				\State{\Call{HanoiVariant1}{$n-1, dst, src, tmp$}}
+				\State{move disk $n$ from $tmp$ to $dst$}
+				\State{\Call{HanoiVariant1}{$n-1, src, dst, tmp$}}
+			\EndIf{}
+		\EndFunction{}
+	\end{algorithmic}
+\end{algorithm}
+
+This algorithm makes 3 recursive calls, and two moves of the $n$th disk; therefore $T(n)=3T(n-1)+2$, where $T(0)=0$.
+
+\[
+T(n)=3T(n-1)+2 \Rightarrow T(n+1)-3T(n)=2 \Rightarrow (\textbf{E}-3)T(n)=2
+\]
+
+Since $(\textbf{E}-1)$ annihilates any constant $\alpha$, we can annihilate the residue by applying the operator $(\textbf{E}-1)$. Thus, our annihilator is $(\textbf{E}-1)(\textbf{E}-3)$. This annihilator gives us the generic solution $T(n)=\alpha 3^n + \beta$ for some unknown constants $\alpha$ and $\beta$. The base cases give us $T(0)=0=\alpha 3^0 + \beta$ and $T(1)=2=\alpha 3^1 + \beta$. When we solve this, we get $\alpha=1$ and $\beta=-1$.
+\\
+
+Therefore, our algorithm takes $T(n)=3^n - 1$ moves.
+\\
+
+As a sanity check, we can prove this closed-form inductively:
+\\
+
+Base case $n=0$: If $n=0$, $T(0)=3^0-1=0$ moves. Our base case was that $T(0)=0$, so this checks out.
+\\
+Inductive hypothesis: Suppose the theorem holds for all values of $n$ up to some $k$, $k \geq 0$.
+\\
+Inductive step: Let $n=k+1$.
+\\
+Then $T(n)=3T(n-1)+2=3T(k)+2$. By the inductive step, this is $T(n)=3 \times 3^k-1+2=3^{k+1}-1=3^n-1$, which matches our closed form.
+
+\textbf{Part 2}
+\\
+
+\begin{algorithm}
+	\caption{Tower of Hanoi, Variant 2}\label{algo:hanoivar2}
+	\begin{algorithmic}[1]
+		\Function{HanoiVariant2}{$n, src, dst, tmp$}
+			\If{$n>0$}
+				\State{\Call{HanoiVariant2}{$n-1, src, dst, tmp$}}\Comment{Move $n-1$ disks from $src$ to $dst$}
+				\State{move disk $n$ from $src$ to $tmp$}\Comment{Move disk $n$ from $src$ to $tmp$}
+				\State{\Call{HanoiVariant2}{$n-1, dst, tmp, src$}}\Comment{Move $n-1$ disks from $dst$ to $tmp$}
+				\State{\Call{HanoiVariant2}{$n-1, tmp, src, dst$}}\Comment{Move $n-1$ disks from $tmp$ to $src$}
+				\State{move disk $n$ from $tmp$ to $dst$}\Comment{Move disk $n$ from $tmp$ to $dst$}
+				\State{\Call{HanoiVariant2}{$n-1, src, dst, tmp$}}\Comment{Move $n-1$ disks from $src$ to $dst$}
+			\EndIf
+		\EndFunction{}
+	\end{algorithmic}
+\end{algorithm}
+
+This algorithm makes 4 recursive calls, and has 2 moves of the $n$th disk; therefore $T(n)=4T(n-1)+2$, where $T(0)=0$.
+
+\[
+T(n)=4T(n-1)+2 \Rightarrow T(n+1)-4T(n)=2 \Rightarrow (\textbf{E}-4)T(n)=2
+\]
+
+Since $(\textbf{E}-1)$ annihilates any constant $\alpha$, we can annihilate the residue by applying the operator $(\textbf{E}-1)$. Thus, our annihilator is $(\textbf{E}-1)(\textbf{E}-4)$. This annihilator gives us the generic solution $T(n)=\alpha 4^n + \beta$ for some unknown constants $\alpha$ and $\beta$. The base cases give us $T(0)=0=\alpha 4^0 + \beta$ and $T(1)=2=\alpha 4^1 + \beta$. When we solve this, we get $\alpha=\frac{2}{3}$ and $\beta=-\frac{2}{3}$.
+\\
+
+Therefore, our algorithm takes $T(n)=\frac{2}{3}4^n - \frac{2}{3}$ moves.
+\\
+
+As a sanity check, we can prove this closed-form inductively:
+\\
+
+Base case $n=0$: If $n=0$, $T(0)=\frac{2}{3}4^0-\frac{2}{3}=0$ moves. Our base case was that $T(0)=0$, so this checks out.
+\\
+Inductive hypothesis: Suppose the theorem holds for all values of $n$ up to some $k$, $k \geq 0$.
+\\
+Inductive step: Let $n=k+1$.
+\\
+Then $T(n)=4T(n-1)+2=4T(k)+2$. By the inductive step, this is $T(n)=4 \times \frac{2}{3}4^k-4 \times \frac{2}{3}+2=\frac{2}{3}4^{k+1}-\frac{2}{3}=\frac{2}{3}4^n-\frac{2}{3}$, which matches our closed form.
+
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+Consider this cruel and unusual sorting algorithm.
+
+\begin{algorithm}[]
+	\caption{Cruel and Unusual}\label{algo:cruelandunusual}
+	\begin{algorithmic}[1]
+		\Function{Cruel}{$A[1..n]$}
+			\If{$n > 1$}
+				\State{} \Call{Cruel}{$A[1..n/2]$}
+				\State{} \Call{Cruel}{$A[n/2+1..n]$}
+				\State{} \Call{Unusual}{$A[1..n]$}
+			\EndIf{}
+		\EndFunction{}
+		\Function{Unusual}{$A[1..n]$}
+			\If{$n = 2$}
+				\If{$A[1] > A[2]$}\Comment{the only comparison!}
+					\State{} swap $A[1] \longleftrightarrow A[2]$
+				\Else{}
+					\For{$i \gets 1$ to $n/4$}\Comment{swap 2nd and 3rd quarters}
+						\State{} swap $A[i + n/4] \longleftrightarrow A[i + n/2]$
+					\EndFor{}
+					\State{} \Call{Unusual}{$A[1..n/2]$}\Comment{recurse on left half}
+					\State{} \Call{Unusual}{$A[n/2+1..n]$}\Comment{recurse on right half}
+					\State{} \Call{Unusual}{$A[n/4+1..3n/4]$}\Comment{recurse on middle half}
+				\EndIf{}
+			\EndIf{}
+		\EndFunction{}
+	\end{algorithmic}
+\end{algorithm}
+
+Notice that the comparisons performed by the algorithm do not depend at all on the values in the input array; such a sorting algorithm is called \emph{oblivious}. Assume for this problem that the input size n is always a power of 2.
+
+\begin{enumerate}
+	\item Prove by induction that \alg{Cruel} correctly sorts any input array. [\textit{Hint: Consider an array that contains \(n/4\) \(1s\), \(n/4\) \(2s\), \(n/4\) \(3s\), and \(n/4\) \(4s\). Why is this special case enough?}]
+	\item Prove that \alg{Cruel} would not correctly sort if we removed the for-loop from \alg{Unusual}.
+	\item Prove that \alg{Cruel} would not correctly sort if we swapped the last two lines of \alg{Unusual}.
+	\item What is the running time of \alg{Unusual}? Justify your answer.
+	\item What is the running time of \alg{Cruel}? Justify your answer.
+\end{enumerate}
+
+\end{homeworkProblem}
+
+\end{document}
