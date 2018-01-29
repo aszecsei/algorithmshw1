@@ -147,8 +147,7 @@
 Prove that it is possible for the Boston Pool algorithm to execute \(\Omega(n^2)\) rounds. (You need to describe both a suitable input and a sequence of \(\Omega(n^2)\) valid proposals.)
 \\
 
-\textbf{Solution}
-\\
+\solution
 
 Suppose we have four doctors, \(\alpha\) through \(\delta\), and four hospitals, \(A\)-\(D\), with their respective preferences given below.
 \\
@@ -214,8 +213,7 @@ Describe and analyze an efficient algorithm that computes a stable matching in t
 Note that a stable matching may leave some doctors and hospitals unmatched, even though their preference lists are non-empty. For example, if every doctor lists Harvard as their only acceptable hospital, and every hospital lists Dr. House as their only acceptable intern, then only House and Harvard will be matched.
 \\
 
-\textbf{Solution}
-\\
+\solution
 
 \begin{algorithm}
 	\caption{General stable matching algorithm}\label{algo:generalstablematching}
@@ -247,32 +245,24 @@ Note that a stable matching may leave some doctors and hospitals unmatched, even
 	\end{algorithmic}
 \end{algorithm}
 
-\textbf{Correctness}
-\\
+\subsection{Correctness}
 
 Let us assume that \alg{GeneralStableMatching} runs on a set of doctors and hospitals. For each unstable situation, we can show that it cannot be a result of our algorithm.
-\\
 
-\textbf{A hospital prefers an unmatched doctor to its assigned match.}
-\\
+\subsubsection{A hospital prefers an unmatched doctor to its assigned match.}
 
 If the algorithm concludes, all hospitals have been removed from the set of unmatched hospitals $U$. In order to remove a hospital from $U$, it must have proposed to, and been rejected by, all doctors; or, it must be matched to a doctor. Since hospitals choose doctors in descending order of preference, any doctor that $H$ prefers to its current match must have rejected it in favor of another hospital; thus, no hospital can prefer an unmatched doctor to its assigned match.
-\\
 
-\textbf{A doctor prefers an unmatched hospital to her assigned match.}
-\\
+\subsubsection{A doctor prefers an unmatched hospital to her assigned match.}
 
 When the algorithm concludes, all hospitals are matched \emph{unless} they have been rejected by all doctors on their list of preferences. Thus, if a hospital is unmatched, all its doctors have rejected it for another hospital; therefore no doctor can prefer an unmatched hospital to her assigned match.
-\\
 
-\textbf{An unmatched doctor and an unmatched hospital appear in each other's preference lists.}
-\\
+\subsubsection{An unmatched doctor and an unmatched hospital appear in each other's preference lists.}
 
 Similar to the previous situation, all hospitals are matched \emph{unless} they have been rejected by all doctors on their list of preferences. If a doctor is unmatched, then she has not been proposed to by a hospital, thus cannot be on a hospital's preference list. Therefore, no combination of unmatched hospital and doctor can appear in each other's preference lists.
 \\
 
-\textbf{Runtime}
-\\
+\subsection{Runtime}
 
 As a worst case, we can assume that each hospital is iterated over and must propose to each doctor on its list of preferences. Thus, the worst-case runtime for this algorithm is $O(m \times n)$, where $m$ is the number of hospitals and $n$ is the number of doctors.
 \end{homeworkProblem}
@@ -287,10 +277,9 @@ Consider a \(2^n \times 2^n\) chessboard with one (arbitrarily chosen) square re
 	\item Describe and analyze an algorithm to compute such a tiling, given the integer \(n\) and two \(n\)-bit integers representing the row and column of the missing square. The output is a list of the positions and orientations of \((4^n-1)/3\) tiles. Your algorithm should run in \(O(4^n)\) time.
 \end{enumerate}
 
-\textbf{Solution}
-\\
-\textbf{Part 1}
-\\
+\solution
+
+\part
 
 Base case $n=1$: If $n=1$ there is a single ``hole'' and an L-shaped piece can be trivially rotated around the hole.
 \\
@@ -307,44 +296,36 @@ We can then place missing pieces for the other three quadrants such that the mis
 These 3 newly-created missing pieces can then be tiled trivially by a single L-shaped piece.
 \\
 
-\textbf{Part 2}
-\\
+\part
+
 \begin{algorithm}
 	\caption{Missing-Square Chessboard Tiling}\label{algo:missingsquare}
 	\begin{algorithmic}[1]
 		\Function{TileChessboard}{$n, row, column$}\Comment{Assume zero-indexed array}
 			\State{$l \gets$ new $List$}
-			\If{$n=1$}\Comment{base case}
-				\State{create new shape $s$}
-				\State{append $s$ to $l$}
-				\State{\Return{$l$}}
-			\Else{}\Comment{recursion}
+			\If{$n>1$}
 				\If{missing piece is in top-left quadrant}
-					\State{$tl \gets$ \Call{TileChessboard}{$n/2, row, column$}}
-					\State{$tr \gets$ \Call{TileChessboard}{$n/2, n/2-1, n/2$}}
-					\State{$bl \gets$ \Call{TileChessboard}{$n/2, n/2, n/2-1$}}
-					\State{$br \gets$ \Call{TileChessboard}{$n/2, n/2, n/2$}}
+					\State{$tl \gets$ \Call{TileChessboard}{$n/2, row, column$}}\Comment{top-left quadrant}
+					\State{$tr \gets$ \Call{TileChessboard}{$n/2, n/2-1, n/2$}}\Comment{top-right quadrant}
+					\State{$bl \gets$ \Call{TileChessboard}{$n/2, n/2, n/2-1$}}\Comment{bottom-left quadrant}
+					\State{$br \gets$ \Call{TileChessboard}{$n/2, n/2, n/2$}}\Comment{bottom-right quadrant}
 				\ElsIf{missing piece is in top-right quadrant}
 					\State{...}
 				\ElsIf{missing piece is in bottom-left quadrant}
 					\State{...}
 				\ElsIf{missing piece is in bottom-right quadrant}
-					\State{$tl \gets$ \Call{TileChessboard}{$n/2, n/2-1, n/2-1$}}
-					\State{$tr \gets$ \Call{TileChessboard}{$n/2, n/2-1, n/2$}}
-					\State{$bl \gets$ \Call{TileChessboard}{$n/2, n/2, n/2-1$}}
-					\State{$br \gets$ \Call{TileChessboard}{$n/2, row-n/2, column-n/2$}}
+					\State{...}
 				\EndIf{}
 				\State{append $tl, tr, bl, br$ to $l$}
-				\State{create new shape $s$ in center, so missing piece is in the same quadrant as $row, column$}
-				\State{append $s$ to $l$}
-				\State{\Return{$l$}}
 			\EndIf{}
+			\State{create new shape $s$ in center, so missing piece is in the same quadrant as $row, column$}
+			\State{append $s$ to $l$}
+			\State{\Return{$l$}}
 		\EndFunction{}
 	\end{algorithmic}
 \end{algorithm}
 
-\textbf{Runtime}
-\\
+\subsection{Runtime}
 
 Each call to \alg{TileChessboard} with $n>1$ creates 4 recursive calls and some number, $\delta$, of constant calls. Each of these recursive calls have size $2^{n-1} \times 2^{n-1}$, and therefore, $T(n)=4T(n-1)+\delta$. The annihilator for this is $(\textbf{E}-4)(\textbf{E}-1)$, so our closed-form solution is $T(n)=\alpha 4^n + \beta$, which is $O(4^n)$.
 
@@ -360,10 +341,9 @@ Consider the following restricted variants of the Tower of Hanoi puzzle. In each
 	\item Suppose you are only allowed to move disks from peg 0 to peg 2, from peg 2 to peg 1, or from peg 1 to peg 0. Equivalently, suppose the pegs are arranged in a circle and numbered in clockwise order, and you are only allowed to move disks counterclockwise. Describe an algorithm to solve this version of the puzzle in as few moves as possible. How many moves does your algorithm make?
 \end{enumerate}
 
-\textbf{Solution}
-\\
-\textbf{Part 1}
-\\
+\solution
+
+\part
 
 \begin{algorithm}
 	\caption{Tower of Hanoi, Variant 1}\label{algo:hanoivar1}
@@ -389,32 +369,23 @@ T(n)=3T(n-1)+2 \Rightarrow T(n+1)-3T(n)=2 \Rightarrow (\textbf{E}-3)T(n)=2
 Since $(\textbf{E}-1)$ annihilates any constant $\alpha$, we can annihilate the residue by applying the operator $(\textbf{E}-1)$. Thus, our annihilator is $(\textbf{E}-1)(\textbf{E}-3)$. This annihilator gives us the generic solution $T(n)=\alpha 3^n + \beta$ for some unknown constants $\alpha$ and $\beta$. The base cases give us $T(0)=0=\alpha 3^0 + \beta$ and $T(1)=2=\alpha 3^1 + \beta$. When we solve this, we get $\alpha=1$ and $\beta=-1$.
 \\
 
-Therefore, our algorithm takes $T(n)=3^n - 1$ moves.
-\\
+Therefore, our algorithm takes $T(n)=3^n - 1$ moves.\\
 
-As a sanity check, we can prove this closed-form inductively:
-\\
-
-Base case $n=0$: If $n=0$, $T(0)=3^0-1=0$ moves. Our base case was that $T(0)=0$, so this checks out.
-\\
-Inductive hypothesis: Suppose the theorem holds for all values of $n$ up to some $k$, $k \geq 0$.
-\\
-Inductive step: Let $n=k+1$.
-\\
-Then $T(n)=3T(n-1)+2=3T(k)+2$. By the inductive step, this is $T(n)=3 \times 3^k-1+2=3^{k+1}-1=3^n-1$, which matches our closed form.
-
-\textbf{Part 2}
-\\
+\part
 
 \begin{algorithm}
 	\caption{Tower of Hanoi, Variant 2}\label{algo:hanoivar2}
 	\begin{algorithmic}[1]
 		\Function{HanoiVariant2}{$n, src, dst, tmp$}
-			\If{$n>0$}
+			\If{$n=1$}
+				\State{move disk $n$ from $src$ to $tmp$}
+				\State{move disk $n$ from $tmp$ to $dst$}
+			\ElsIf{$n>0$}
 				\State{\Call{HanoiVariant2}{$n-1, src, dst, tmp$}}\Comment{Move $n-1$ disks from $src$ to $dst$}
-				\State{move disk $n$ from $src$ to $tmp$}\Comment{Move disk $n$ from $src$ to $tmp$}
-				\State{\Call{HanoiVariant2}{$n-1, dst, tmp, src$}}\Comment{Move $n-1$ disks from $dst$ to $tmp$}
-				\State{\Call{HanoiVariant2}{$n-1, tmp, src, dst$}}\Comment{Move $n-1$ disks from $tmp$ to $src$}
+				\State{move disk $n$ from $src$ to $tmp$}
+				\State{\Call{HanoiVariant2}{$n-2, dst, tmp, src$}}\Comment{Move $n-2$ disks from $dst$ to $tmp$}
+				\State{move disk $n-1$ from $dst$ to $src$}
+				\State{\Call{HanoiVariant2}{$n-2, tmp, src, dst$}}\Comment{Move $n-2$ disks from $tmp$ to $src$}
 				\State{move disk $n$ from $tmp$ to $dst$}\Comment{Move disk $n$ from $tmp$ to $dst$}
 				\State{\Call{HanoiVariant2}{$n-1, src, dst, tmp$}}\Comment{Move $n-1$ disks from $src$ to $dst$}
 			\EndIf
@@ -422,29 +393,26 @@ Then $T(n)=3T(n-1)+2=3T(k)+2$. By the inductive step, this is $T(n)=3 \times 3^k
 	\end{algorithmic}
 \end{algorithm}
 
-This algorithm makes 4 recursive calls, and has 2 moves of the $n$th disk; therefore $T(n)=4T(n-1)+2$, where $T(0)=0$.
-
+This algorithm makes 2 recursive calls with $n-1$ disks and 2 recursive calls with $n-2$ disks, and has 2 moves of the $n$th disk and 1 move of the $n-1$th disk; therefore $T(n)=2T(n-1)+2T(n-2)+3$, where $T(0)=0$, $T(1)=2$, and $T(2)=7$.
 \[
-T(n)=4T(n-1)+2 \Rightarrow T(n+1)-4T(n)=2 \Rightarrow (\textbf{E}-4)T(n)=2
+T(n)=2T(n-1)+2T(n-2)+3 \Rightarrow T(n+2)-2T(n+1)-2T(n)=2 \Rightarrow (\textbf{E}^2-2\textbf{E}-2)T(n)=2
 \]
 
-Since $(\textbf{E}-1)$ annihilates any constant $\alpha$, we can annihilate the residue by applying the operator $(\textbf{E}-1)$. Thus, our annihilator is $(\textbf{E}-1)(\textbf{E}-4)$. This annihilator gives us the generic solution $T(n)=\alpha 4^n + \beta$ for some unknown constants $\alpha$ and $\beta$. The base cases give us $T(0)=0=\alpha 4^0 + \beta$ and $T(1)=2=\alpha 4^1 + \beta$. When we solve this, we get $\alpha=\frac{2}{3}$ and $\beta=-\frac{2}{3}$.
-\\
+This can be factored into $(\textbf{E}-(\sqrt{3}-1))(\textbf{E}+(\sqrt{3}-1))$. Since $(\textbf{E}-1)$ annihilates any constant $\alpha$, we can annihilate the residue by applying the operator $(\textbf{E}-1)$. Thus, our annihilator is $(\textbf{E}-1)(\textbf{E}-(\sqrt{3}-1))(\textbf{E}+(\sqrt{3}-1))$.\\
 
-Therefore, our algorithm takes $T(n)=\frac{2}{3}4^n - \frac{2}{3}$ moves.
-\\
+Therefore, the closed-form to our recurrence is $T(n)=\alpha(\sqrt{3}-1)^n+\beta(1-\sqrt{3})^n+\gamma$. Given our initial conditions,
 
-As a sanity check, we can prove this closed-form inductively:
-\\
+\begin{equation}
+	\begin{split}
+		\alpha(\sqrt{3}-1)^0+\beta(1-\sqrt{3})^0+\gamma & =0\\
+		\alpha(\sqrt{3}-1)^1+\beta(1-\sqrt{3})^1+\gamma & =2\\
+		\alpha(\sqrt{3}-1)^2+\beta(1-\sqrt{3})^2+\gamma & =7\\
+	\end{split}
+\end{equation}
 
-Base case $n=0$: If $n=0$, $T(0)=\frac{2}{3}4^0-\frac{2}{3}=0$ moves. Our base case was that $T(0)=0$, so this checks out.
-\\
-Inductive hypothesis: Suppose the theorem holds for all values of $n$ up to some $k$, $k \geq 0$.
-\\
-Inductive step: Let $n=k+1$.
-\\
-Then $T(n)=4T(n-1)+2=4T(k)+2$. By the inductive step, this is $T(n)=4 \times \frac{2}{3}4^k-4 \times \frac{2}{3}+2=\frac{2}{3}4^{k+1}-\frac{2}{3}=\frac{2}{3}4^n-\frac{2}{3}$, which matches our closed form.
+This system of linear equations can be solved to reveal that $\alpha=-\frac{33}{4}-\frac{19\sqrt{3}}{4}$, $\beta=\frac{5}{4}+\frac{1}{4\sqrt{3}}$, and $\gamma=7+\frac{14}{\sqrt{3}}$.\\
 
+Therefore, our recurrence has a closed form of $T(n)=(-\frac{33}{4}-\frac{19\sqrt{3}}{4})(\sqrt{3}-1)^n + (\frac{5}{4}+\frac{1}{4\sqrt{3}})(1-\sqrt{3})^n + 7+\frac{14}{\sqrt{3}}$.
 \end{homeworkProblem}
 
 \pagebreak
@@ -489,11 +457,9 @@ Notice that the comparisons performed by the algorithm do not depend at all on t
 	\item What is the running time of \alg{Cruel}? Justify your answer.
 \end{enumerate}
 
-\textbf{Solution}
-\\
+\solution
 
-\textbf{Part 1}
-\\
+\part
 
 \alg{Cruel} has the same structure as \alg{MergeSort}, aside from the fact that it makes a call to \alg{Unusual} at the end, rather than \alg{Merge}; therefore, to prove correctness, it is sufficient to prove that \alg{Unusual} is equivalent to \alg{Merge}.
 \\
@@ -518,26 +484,22 @@ Finally, we examine the middle half of the elements, $A[n/4+1..3n/4]$. When we f
 This means that $A$ itself is now sorted, and thus our thesis holds. Since \alg{Unusual} behaves exactly the same as \alg{Merge}, and \alg{Cruel} behaves exactly the same as \alg{MergeSort}, this proves the correctness of the sorting algorithm.
 \\
 
-\textbf{Part 2}
-\\
+\part
 
 If we removed the for-loop from \alg{Unusual}, we can pass in the array $[3, 4, 1, 2]$ and see that \alg{Unusual} returns $[3, 1, 4, 2]$, which is not sorted.
 \\
 
-\textbf{Part 3}
-\\
+\part
 
 If we swapped the last two lines of \alg{Unusual}, when we pass in the array $[3, 4, 1, 2]$ we see that \alg{Unusual} returns $[1, 3, 2, 4]$, which is not sorted.
 \\
 
-\textbf{Part 4}
-\\
+\part
 
 The running time of of \alg{Unusual} is $T_1(n)=3T_1(\frac{n}{2})+\frac{n}{4}$. Using the Master Theorem, we see that this is $O(n^{\log_2 3})$.
 \\
 
-\textbf{Part 5}
-\\
+\part
 
 The running time of \alg{Cruel} is $T_2(n)=2T_2(n/2)+T_1(n)=2T_2(n/2)+O(n^{\log_2 3})$. Using the Master Theorem, we see that this is $O(n^{\log_2 3})$.
 
